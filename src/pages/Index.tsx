@@ -1,9 +1,22 @@
-import React from 'react';
-import { Shield, Share2, Lock, FileText, CheckCircle, ArrowRight, Zap, Users } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Shield, Share2, Lock, FileText, ArrowRight, Users, Settings } from 'lucide-react';
 
 export default function Index() {
+  const [isAdminUnlocked, setIsAdminUnlocked] = useState(false);
+
+  useEffect(() => {
+    // Check if unlock parameter is in the URL
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('unlock') === 'true') {
+      localStorage.setItem('isAdminAllowed', 'true');
+      setIsAdminUnlocked(true);
+    } else if (localStorage.getItem('isAdminAllowed') === 'true') {
+      setIsAdminUnlocked(true);
+    }
+  }, []);
+
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div className="min-h-screen bg-slate-50 text-slate-900 relative">
       {/* Navigation Header */}
       <header className="border-b bg-white sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -86,6 +99,17 @@ export default function Index() {
           &copy; 2026 docShare. All rights reserved.
         </div>
       </footer>
+
+      {/* Secret Admin Button - Visible only on authorized phone/browser */}
+      {isAdminUnlocked && (
+        <a 
+          href="/?admin=true" 
+          className="fixed bottom-6 right-6 p-4 bg-slate-900 text-white rounded-full shadow-2xl hover:bg-indigo-600 transition z-50 flex items-center justify-center border-2 border-white"
+          title="Open Admin Portal"
+        >
+          <Settings className="h-6 w-6 animate-spin-slow" />
+        </a>
+      )}
     </div>
   );
 }
