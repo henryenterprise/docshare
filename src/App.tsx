@@ -40,17 +40,14 @@ export default function App() {
     );
   }
 
-  // 1. Visual Builder View
+    // 1. Visual Builder Route
   if (isBuilderRoute) {
     return <VisualBuilder />;
   }
 
-  // 2. Admin Command Center View
-  if (isAdminRoute) {
-    if (!session) {
-      return <Login />;
-    }
-    return <Admin />;
+  // 2. Normal User Login Route (Guaranteed to show normal login when ?login=true is used)
+  if (isLoginRoute) {
+    return <Login />;
   }
 
   // 3. docShare Onboarding / Registration Route (?register=true)
@@ -58,11 +55,14 @@ export default function App() {
     return <Register />;
   }
 
-  // 4. Login & Account Category Selection Route (?login=true)
-  if (isLoginRoute) {
-    return <Login />;
+  // 4. Hard-coded Admin Portal Route (?admin=true)
+  if (isAdminRoute) {
+    if (!session) {
+      return <Login />;
+    }
+    return <Admin />;
   }
 
-  // 5. Default Public Homepage Route (Step 1)
+  // 5. Default Public Homepage Route
   return <Index />;
 }
