@@ -9,8 +9,8 @@ export default function App() {
   const [session, setSession] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-      const isBuilderRoute = window.location.pathname.includes('/builder');
-  const isAdminRoute = window.location.pathname.includes('/admin');
+        const isBuilderRoute = window.location.search.includes('builder=true') || window.location.href.includes('builder');
+  const isAdminRoute = window.location.search.includes('admin=true');
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
