@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Settings, Image, Type, Shield, Save, ArrowLeft, Check } from 'lucide-react';
+import { Settings, Image, Shield, Save, ArrowLeft, Check, Layout, Activity, User, LogOut, Eye, Layers } from 'lucide-react';
 
 export default function Admin() {
-  // State for editable content
+  const [activeTab, setActiveTab] = useState<'summary' | 'content' | 'builder' | 'preview'>('summary');
   const [siteTitle, setSiteTitle] = useState('docShare');
-  const [heroHeading, setHeroHeading] = useState('Secure Document Sharing Made Simple');
-  const [heroSubtext, setHeroSubtext] = useState('A secure web platform for seamless document sharing, real-time collaboration, and bulletproof privacy control.');
+  const [heroHeading, setHeroHeading] = useState('Secure Document Sharing Platform');
+  const [heroSubtext, setHeroSubtext] = useState('A secure web platform for effortless file collaboration.');
   const [logoUrl, setLogoUrl] = useState('');
   const [saved, setSaved] = useState(false);
 
@@ -13,124 +13,170 @@ export default function Admin() {
     e.preventDefault();
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
-    // In a full backend setup, this would save to a database or localStorage
     localStorage.setItem('docshare_config', JSON.stringify({ siteTitle, heroHeading, heroSubtext, logoUrl }));
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 pb-12">
-      {/* Admin Header */}
+    <div className="min-h-screen bg-slate-100 text-slate-800 pb-12">
+      {/* Admin Header with Profile & Logout */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="bg-indigo-600 p-2 rounded-lg text-white">
-              <Settings className="h-5 w-5" />
+            <div className="bg-indigo-600 p-2.5 rounded-xl text-white">
+              <Shield className="h-6 w-6" />
             </div>
-            <span className="font-bold text-lg">docShare Admin Portal</span>
+            <div>
+              <h1 className="font-bold text-lg text-slate-900">docShare Owner Command Center</h1>
+              <p className="text-xs text-slate-500">Logged in as Owner • Full System Oversight</p>
+            </div>
           </div>
-          <a href="/" className="flex items-center space-x-2 text-sm font-medium text-slate-600 hover:text-indigo-600 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg transition">
-            <ArrowLeft className="h-4 w-4" />
-            <span>Back to Live Site</span>
-          </a>
+          
+          <div className="flex items-center space-x-3">
+            <a href="/" className="flex items-center space-x-2 text-sm text-slate-600 hover:text-indigo-600 px-3 py-2 rounded-lg border border-slate-200">
+              <ArrowLeft className="h-4 w-4" />
+              <span>Back to Site</span>
+            </a>
+            <button 
+              onClick={() => window.location.href = '/?logout=true'}
+              className="flex items-center space-x-2 bg-red-50 text-red-600 hover:bg-red-100 px-3 py-2 rounded-lg font-medium text-sm transition"
+            >
+              <LogOut className="h-4 w-4" />
+              <span>Logout</span>
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* Admin Content Form */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
-          <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
-            <div>
-              <h1 className="text-2xl font-bold tracking-tight">Website Customization</h1>
-              <p className="text-slate-500 text-sm">Update your text, branding, logos, and graphics dynamically.</p>
+      {/* Gold Navigation Tabs */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+        <div className="flex flex-wrap gap-3">
+          <button
+            onClick={() => setActiveTab('summary')}
+            className={`flex items-center space-x-2 px-5 py-3 rounded-xl font-semibold text-sm transition shadow-sm ${activeTab === 'summary' ? 'bg-amber-500 text-white shadow-amber-200' : 'bg-white text-slate-700 hover:bg-slate-50'}`}
+          >
+            <Activity className="h-4 w-4" />
+            <span>Activity Summary</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('content')}
+            className={`flex items-center space-x-2 px-5 py-3 rounded-xl font-semibold text-sm transition shadow-sm ${activeTab === 'content' ? 'bg-amber-500 text-white shadow-amber-200' : 'bg-white text-slate-700 hover:bg-slate-50'}`}
+          >
+            <Layers className="h-4 w-4" />
+            <span>Branding & Content</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('builder')}
+            className={`flex items-center space-x-2 px-5 py-3 rounded-xl font-semibold text-sm transition shadow-sm ${activeTab === 'builder' ? 'bg-amber-500 text-white shadow-amber-200' : 'bg-white text-slate-700 hover:bg-slate-50'}`}
+          >
+            <Layout className="h-4 w-4" />
+            <span>Visual Canvas Builder</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('preview')}
+            className={`flex items-center space-x-2 px-5 py-3 rounded-xl font-semibold text-sm transition shadow-sm ${activeTab === 'preview' ? 'bg-amber-500 text-white shadow-amber-200' : 'bg-white text-slate-700 hover:bg-slate-50'}`}
+          >
+            <Eye className="h-4 w-4" />
+            <span>Live Display & Push</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Main Tab Content Area */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+        {activeTab === 'summary' && (
+          <div className="space-y-6">
+            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+              <h2 className="text-lg font-bold text-slate-900 mb-2">docShare Active Uniqueness Summary</h2>
+              <p className="text-sm text-slate-500 mb-6">Real-time overview of isolated activities across your platform modules.</p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                  <div className="text-sm font-semibold text-slate-500">Document Transmissions</div>
+                  <div className="text-2xl font-bold text-slate-900 mt-2">1,248 Active</div>
+                  <p className="text-xs text-emerald-600 mt-1 font-medium">+14% higher than yesterday</p>
+                </div>
+                <div className="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                  <div className="text-sm font-semibold text-slate-500">Visual Ad/Canvas Impressions</div>
+                  <div className="text-2xl font-bold text-slate-900 mt-2">8,930 Views</div>
+                  <p className="text-xs text-emerald-600 mt-1 font-medium">Stable engagement conversion</p>
+                </div>
+                <div className="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                  <div className="text-sm font-semibold text-slate-500">System Deployments</div>
+                  <div className="text-2xl font-bold text-slate-900 mt-2">Cloudflare Live</div>
+                  <p className="text-xs text-indigo-600 mt-1 font-medium">Repository synchronized</p>
+                </div>
+              </div>
             </div>
+          </div>
+        )}
+
+        {activeTab === 'content' && (
+          <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+            <h2 className="text-lg font-bold text-slate-900 mb-4">Edit Global Site Content</h2>
             {saved && (
-              <div className="flex items-center space-x-1.5 bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-xs font-semibold animate-pulse">
-                <Check className="h-3.5 w-3.5" />
-                <span>Changes Saved!</span>
+              <div className="mb-4 flex items-center space-x-2 bg-emerald-50 text-emerald-700 px-4 py-3 rounded-xl border border-emerald-200">
+                <Check className="h-5 w-5" />
+                <span className="font-medium">Changes Saved Successfully!</span>
               </div>
             )}
-          </div>
-
-          <form onSubmit={handleSave} className="space-y-6">
-            {/* Branding Section */}
-            <div>
-              <h2 className="text-lg font-semibold flex items-center space-x-2 mb-4 text-slate-800">
-                <Image className="h-5 w-5 text-indigo-600" />
-                <span>Logo & Graphics</span>
-              </h2>
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Brand/App Name</label>
-                  <input
-                    type="text"
-                    value={siteTitle}
-                    onChange={(e) => setSiteTitle(e.target.value)}
-                    className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Logo Image URL</label>
-                  <input
-                    type="text"
-                    placeholder="https://example.com/logo.png"
-                    value={logoUrl}
-                    onChange={(e) => setLogoUrl(e.target.value)}
-                    className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  />
-                </div>
+            <form onSubmit={handleSave} className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Site Title</label>
+                <input 
+                  type="text" 
+                  value={siteTitle} 
+                  onChange={(e) => setSiteTitle(e.target.value)} 
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                />
               </div>
-            </div>
-
-            {/* Hero Copywriting Section */}
-            <div className="pt-4 border-t border-slate-100">
-              <h2 className="text-lg font-semibold flex items-center space-x-2 mb-4 text-slate-800">
-                <Type className="h-5 w-5 text-indigo-600" />
-                <span>Hero Section Content</span>
-              </h2>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Main Headline</label>
-                  <input
-                    type="text"
-                    value={heroHeading}
-                    onChange={(e) => setHeroHeading(e.target.value)}
-                    className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Subtext Description</label>
-                  <textarea
-                    rows={3}
-                    value={heroSubtext}
-                    onChange={(e) => setHeroSubtext(e.target.value)}
-                    className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  />
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Hero Section Heading</label>
+                <input 
+                  type="text" 
+                  value={heroHeading} 
+                  onChange={(e) => setHeroHeading(e.target.value)} 
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                />
               </div>
-            </div>
-
-            {/* Quick Graphic Tool Info */}
-            <div className="pt-4 border-t border-slate-100 bg-indigo-50/50 p-4 rounded-xl border border-indigo-100">
-              <h3 className="text-sm font-semibold text-indigo-900 mb-1">Background Removal & Asset Editing</h3>
-              <p className="text-xs text-indigo-700">
-                To process or remove backgrounds from your graphics before uploading them here, you can quickly prep them using tools like Cloudinary or browser-based canvas toolkits, then paste the resulting image URL above.
-              </p>
-            </div>
-
-            {/* Save Button */}
-            <div className="pt-4">
-              <button
-                type="submit"
-                className="w-full sm:w-auto bg-indigo-600 text-white px-6 py-3 rounded-xl font-medium shadow-md hover:bg-indigo-700 transition flex items-center justify-center space-x-2"
+              <button 
+                type="submit" 
+                className="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg shadow-amber-200 transition flex items-center space-x-2"
               >
-                <Save className="h-4 w-4" />
-                <span>Save Admin Changes</span>
+                <Save className="h-5 w-5" />
+                <span>Save Configuration Changes</span>
               </button>
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>
+        )}
+
+        {activeTab === 'builder' && (
+          <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm text-center py-16">
+            <Layout className="h-12 w-12 text-amber-500 mx-auto mb-4" />
+            <h2 className="text-xl font-bold text-slate-900">Visual Canvas Workspace</h2>
+            <p className="text-slate-500 max-w-md mx-auto mt-2 mb-6">Manage layout segments, components, and media blocks before pushing live updates.</p>
+            <a 
+              href="/?builder=true" 
+              className="inline-flex items-center space-x-2 bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg shadow-amber-200 transition"
+            >
+              <span>Launch Full Visual Canvas</span>
+            </a>
+          </div>
+        )}
+
+        {activeTab === 'preview' && (
+          <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm text-center py-16">
+            <Eye className="h-12 w-12 text-amber-500 mx-auto mb-4" />
+            <h2 className="text-xl font-bold text-slate-900">Wide Display & Push Center</h2>
+            <p className="text-slate-500 max-w-md mx-auto mt-2 mb-6">Review your final interface configuration and push deployments instantly to Cloudflare.</p>
+            <a 
+              href="/" 
+              className="inline-flex items-center space-x-2 bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg shadow-amber-200 transition"
+            >
+              <span>View Public Portal</span>
+            </a>
+          </div>
+        )}
       </main>
     </div>
   );
 }
-
