@@ -4,6 +4,7 @@ import Index from './pages/Index';
 import Admin from './pages/Admin';
 import Login from './pages/Login';
 import VisualBuilder from './pages/VisualBuilder';
+import Register from './pages/Register';
 
 export default function App() {
   const [session, setSession] = useState<any>(null);
@@ -11,6 +12,7 @@ export default function App() {
 
         const isBuilderRoute = window.location.search.includes('builder=true') || window.location.href.includes('builder');
   const isAdminRoute = window.location.search.includes('admin=true');
+  const isRegisterRoute = window.location.search.includes('register=true');
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -40,7 +42,9 @@ export default function App() {
   if (isBuilderRoute) {
     return <VisualBuilder />;
   }
-
+if (isRegisterRoute) {
+  return <Register />;
+}
 
   // If user is trying to access admin view
   if (isAdminRoute) {
