@@ -3,6 +3,7 @@ import { supabase } from './utils/supabase';
 import Index from './pages/Index';
 import Admin from './pages/Admin';
 import Login from './pages/Login';
+import VisualBuilder from './pages/VisualBuilder';
 
 export default function App() {
   const [session, setSession] = useState<any>(null);
@@ -10,6 +11,7 @@ export default function App() {
 
   const queryParams = new URLSearchParams(window.location.search);
   const isAdminRoute = queryParams.get('admin') === 'true';
+  const isBuilderRoute = queryParams.get('builder') === 'true';
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -29,19 +31,25 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-600">
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
         Loading...
       </div>
     );
   }
 
-  // If user is trying to access admin view
-  if (isAdminRoute) {
-    // If not authenticated, show the Supabase Login screen
+  // If user is trying to access the visual builder view
+  if (isBuilderRoute) {
     if (!session) {
       return <Login />;
     }
-    // If authenticated, show the Admin Dashboard
+    return <VisualBuilder />;
+  }
+
+  // If user is trying to access admin view
+  if (isAdminRoute) {
+    if (!session) {
+      return <Login />;
+    }
     return <Admin />;
   }
 
