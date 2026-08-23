@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { Building2, Users, ShieldCheck, Upload, ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
 
