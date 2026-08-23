@@ -9,9 +9,8 @@ export default function App() {
   const [session, setSession] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-    const queryParams = new URLSearchParams(window.location.search);
-  const isAdminRoute = queryParams.get('admin') === 'true';
-  const isBuilderRoute = queryParams.get('builder') === 'true' || window.location.href.includes('builder=true');
+      const isBuilderRoute = window.location.pathname.includes('/builder');
+  const isAdminRoute = window.location.pathname.includes('/admin');
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -37,11 +36,10 @@ export default function App() {
     );
   }
 
-      // If user is trying to access the visual builder view
-  if (isBuilderRoute || window.location.href.includes('builder=true')) {
+      // If user is trying to access the visual builder view via path
+  if (isBuilderRoute) {
     return <VisualBuilder />;
   }
-
 
 
   // If user is trying to access admin view
