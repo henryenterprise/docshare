@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Shield, ArrowLeft, KeyRound, CheckCircle } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -7,17 +8,26 @@ export default function Login() {
   const [isResetMode, setIsResetMode] = useState(false);
   const [resetSent, setResetSent] = useState(false);
 
-  const handleAuth = (e: React.FormEvent) => {
+    const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isResetMode) {
-      setResetSent(true);
-      setTimeout(() => {
-        setResetSent(false);
-        setIsResetMode(false);
-      }, 4000);
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/admin`,
+      });
+      
+      if (error) {
+        alert(error.message);
+      } else {
+        setResetSent(true);
+      }
     } else {
-      // Standard login logic / Supabase auth call
-      alert("Authenticating...");
+      // Real Supabase Sign In call
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        alert(error.message);
+      } else {
+        window.location.href = '/admin';
+      }
     }
   };
 
