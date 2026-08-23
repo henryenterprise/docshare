@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Shield, Share2, Lock, FileText, ArrowRight, Users, Settings } from 'lucide-react';
 
 export default function Index() {
-  const [isAdminUnlocked, setIsAdminUnlocked] = useState(false);
+  const [isadminUnlocked, setIsAdminUnlocked] = useState(false);
 
   useEffect(() => {
     // Check if unlock parameter is in the URL
@@ -29,7 +29,10 @@ export default function Index() {
           <div className="flex items-center space-x-4">
             <a href="#features" className="text-sm font-medium text-slate-600 hover:text-indigo-600">Features</a>
             <a href="#security" className="text-sm font-medium text-slate-600 hover:text-indigo-600">Security</a>
-            <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition">
+            <button 
+              onClick={() => window.location.href = '/?admin=true'}
+              className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition"
+            >
               Get Started
             </button>
           </div>
@@ -38,7 +41,7 @@ export default function Index() {
 
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
-        <div className="inline-flex items-center space-x-2 bg-indigo-50 border border-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-semibold mb-6">
+        <div className="inline-flex items-center space-x-2 bg-indigo-50 border border-indigo-100 px-3 py-1 rounded-full text-indigo-700 text-sm font-medium mb-6">
           <Shield className="h-3.5 w-3.5" />
           <span>Enterprise-Grade Document Security</span>
         </div>
@@ -49,11 +52,14 @@ export default function Index() {
           A secure web platform for seamless document sharing, real-time collaboration, and bulletproof privacy control.
         </p>
         <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
-          <button className="w-full sm:w-auto bg-indigo-600 text-white px-8 py-3.5 rounded-xl font-medium shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition flex items-center justify-center space-x-2">
+          <button 
+            onClick={() => window.location.href = '/?admin=true'}
+            className="w-full sm:w-auto bg-indigo-600 text-white px-8 py-3.5 rounded-xl font-medium shadow-lg hover:bg-indigo-700 transition flex items-center justify-center space-x-2"
+          >
             <span>Get Started Free</span>
             <ArrowRight className="h-4 w-4" />
           </button>
-          <a href="#features" className="w-full sm:w-auto bg-white border border-slate-200 text-slate-700 px-8 py-3.5 rounded-xl font-medium hover:bg-slate-50 transition">
+          <a href="#features" className="w-full sm:w-auto bg-white border border-slate-200 text-slate-700 px-8 py-3.5 rounded-xl font-medium hover:bg-slate-50 transition text-center">
             Explore Features
           </a>
         </div>
@@ -72,7 +78,7 @@ export default function Index() {
               <Lock className="h-6 w-6" />
             </div>
             <h3 className="text-xl font-semibold mb-3">End-to-End Security</h3>
-            <p className="text-slate-600">Your documents are encrypted and protected with strict access permissions and password controls.</p>
+            <p className="text-slate-600">Your documents are encrypted and protected with strict access permissions and secure links.</p>
           </div>
 
           <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
@@ -80,7 +86,7 @@ export default function Index() {
               <Share2 className="h-6 w-6" />
             </div>
             <h3 className="text-xl font-semibold mb-3">Instant Link Sharing</h3>
-            <p className="text-slate-600">Generate secure links with expiration dates so you stay in total control of who sees your files.</p>
+            <p className="text-slate-600">Generate secure links with expiration dates so you stay in total control of who views your content.</p>
           </div>
 
           <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
@@ -92,24 +98,6 @@ export default function Index() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-8 mt-20">
-        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-slate-500">
-          &copy; 2026 docShare. All rights reserved.
-        </div>
-      </footer>
-
-      {/* Secret Admin Button - Visible only on authorized phone/browser */}
-      {isAdminUnlocked && (
-        <a 
-          href="/?admin=true" 
-          className="fixed bottom-6 right-6 p-4 bg-slate-900 text-white rounded-full shadow-2xl hover:bg-indigo-600 transition z-50 flex items-center justify-center border-2 border-white"
-          title="Open Admin Portal"
-        >
-          <Settings className="h-6 w-6 animate-spin-slow" />
-        </a>
-      )}
     </div>
   );
 }
