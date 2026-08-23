@@ -59,8 +59,8 @@ export default function Register() {
     try {
       // 1. Create Supabase Auth User (Password can be auto-generated or prompted, keeping standard signup here)
       // For security, registrations default to a 'pending_verification' status in your database.
-      const tempPassword = Math.random().toString(36.slice(-8)) + 'A1!'; 
-      
+      const tempPassword = Math.random().toString(36).slice(-8) + 'A1!';
+ 
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: formData.email,
         password: tempPassword,
