@@ -37,13 +37,11 @@ export default function App() {
     );
   }
 
-  // If user is trying to access the visual builder view
+    // If user is trying to access the visual builder view
   if (isBuilderRoute) {
-    if (!session) {
-      return <Login />;
-    }
     return <VisualBuilder />;
   }
+
 
   // If user is trying to access admin view
   if (isAdminRoute) {
