@@ -20,10 +20,12 @@ export default function Login() {
   const [gender, setGender] = useState('');
   const [occupation, setOccupation] = useState('');
 
-  const handleAccountTypeChange = (type: 'individual' | 'group' | 'organization') => {
+    const handleAccountTypeChange = (type: 'individual' | 'group' | 'organization') => {
     setAccountType(type);
-    if (type === 'group' || type === 'organization') {
-      window.location.href = '/?register=true';
+    if (type === 'group') {
+      window.location.href = '/?register=true&type=group';
+    } else if (type === 'organization') {
+      window.location.href = '/?register=true&type=organization';
     }
   };
 
