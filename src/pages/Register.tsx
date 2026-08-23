@@ -31,6 +31,16 @@ export default function Register() {
     staffSize: '1-10 employees',
     idType: 'National ID (NIN)',
   });
+    useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const regType = params.get('type');
+    if (regType === 'group') {
+      setAccountType('group');
+      setFormData(prev => ({ ...prev, staffSize: '1 - 5' }));
+    } else if (regType === 'organization') {
+      setAccountType('organization');
+    }
+  }, []);
 
   const [idFile, setIdFile] = useState<File | null>(null);
   const [corpFile, setCorpFile] = useState<File | null>(null);
