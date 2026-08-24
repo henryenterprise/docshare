@@ -10,7 +10,6 @@ export default function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // Handle URL query parameter routing for ?admin=true or ?register=true
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('admin') === 'true') {
@@ -20,11 +19,10 @@ export default function App() {
     }
   }, []);
 
-  // Handle Category Selection behavior
   const handleCategoryChange = (cat) => {
     setAccountCategory(cat);
     if (cat === 'Group' || cat === 'Corporate') {
-      setView('register'); // Automatically route to registration form
+      setView('register');
     }
   };
 
@@ -42,35 +40,45 @@ export default function App() {
     return (
       <div style={{ minHeight: '100vh', background: '#f8fafc', display: 'flex', justifyContent: 'center', alignItems: 'center', fontFamily: 'sans-serif', padding: '16px' }}>
         <div style={{ background: 'white', padding: '32px', borderRadius: '24px', width: '100%', maxWidth: '420px', boxShadow: '0 10px 25px -5px rgb(0 0 0 / 0.05)', textAlign: 'center' }}>
-          <div style={{ background: '#4f46e5', color: 'white', width: '56px', height: '56px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '16px', margin: '0 auto 16px auto', fontSize: '26px' }}>🛡️</div>
-          <h2 style={{ fontSize: '26px', fontWeight: 'bold', margin: '0 0 8px 0', color: '#0f172a' }}>Sign in to docShare</h2>
-          <p style={{ fontSize: '14px', color: '#64748b', margin: '0 0 24px 0' }}>
+          
+          {/* Strategic App Icon Position */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '16px' }}>
+            <div style={{ background: '#4f46e5', color: 'white', width: '44px', height: '44px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '12px', fontSize: '22px', boxShadow: '0 4px 10px rgba(79, 70, 229, 0.3)' }}>🛡️</div>
+            <span style={{ fontSize: '18px', fontWeight: '800', color: '#0f172a', letterSpacing: '-0.025em' }}>docShare</span>
+          </div>
+
+          <h2 style={{ fontSize: '24px', fontWeight: 'bold', margin: '0 0 6px 0', color: '#0f172a' }}>Sign in to docShare</h2>
+          <p style={{ fontSize: '13px', color: '#64748b', margin: '0 0 20px 0' }}>
             Access your secure workspace or <span style={{ color: '#4f46e5', cursor: 'pointer', textDecoration: 'underline' }} onClick={() => setView('register')}>register a new organization/group</span>
           </p>
 
-          <div style={{ marginBottom: '20px', textAlign: 'left' }}>
-            <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', color: '#64748b', marginBottom: '8px' }}>Select Account Category</label>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
-              {['Individual', 'Group', 'Corporate'].map((cat) => (
-                <button
-                  key={cat}
-                  type="button"
-                  onClick={() => handleCategoryChange(cat)}
-                  style={{
-                    padding: '10px 8px',
-                    borderRadius: '12px',
-                    border: accountCategory === cat ? '2px solid #4f46e5' : '1px solid #cbd5e1',
-                    background: accountCategory === cat ? '#eef2ff' : 'white',
-                    color: accountCategory === cat ? '#4f46e5' : '#334155',
-                    fontSize: '13px',
-                    fontWeight: '600',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', marginBottom: '12px' }}>
+            {['Individual', 'Group', 'Corporate'].map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => handleCategoryChange(cat)}
+                style={{
+                  padding: '10px 8px',
+                  borderRadius: '12px',
+                  border: accountCategory === cat ? '2px solid #4f46e5' : '1px solid #cbd5e1',
+                  background: accountCategory === cat ? '#eef2ff' : 'white',
+                  color: accountCategory === cat ? '#4f46e5' : '#334155',
+                  fontSize: '13px',
+                  fontWeight: '600',
+                  cursor: 'pointer'
+                }}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Select Account Category in between cards, inside Gold background frame */}
+          <div style={{ background: '#fef3c7', border: '1px solid #f59e0b', padding: '10px 14px', borderRadius: '10px', textAlign: 'center', marginBottom: '20px' }}>
+            <span style={{ fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', color: '#b45309', letterSpacing: '0.05em' }}>
+              Select Account Category: {accountCategory}
+            </span>
           </div>
 
           <form onSubmit={(e) => { e.preventDefault(); setView('app'); }} style={{ display: 'flex', flexDirection: 'column', gap: '16px', textAlign: 'left' }}>
@@ -83,31 +91,37 @@ export default function App() {
               <input type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
             </div>
             <button type="submit" style={{ background: '#4f46e5', color: 'white', border: 'none', padding: '14px', borderRadius: '10px', fontWeight: '600', cursor: 'pointer', width: '100%' }}>
-              Sign In to Workspace →
+              Sign-in
             </button>
           </form>
 
-          <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid #f1f5f9' }}>
-            <button onClick={() => setView('register')} style={{ width: '100%', background: 'white', color: '#4f46e5', border: '1px solid #4f46e5', padding: '12px', borderRadius: '10px', fontWeight: '600', cursor: 'pointer' }}>
-              Create Account / Register Portal
-            </button>
+          <div style={{ marginTop: '20px', textAlign: 'center' }}>
+            <span style={{ fontSize: '14px', color: '#64748b' }}>Don't have an account? </span>
+            <span style={{ fontSize: '14px', color: '#4f46e5', fontWeight: '600', cursor: 'pointer', textDecoration: 'underline' }} onClick={() => setView('register')}>
+              Sign up
+            </span>
           </div>
         </div>
       </div>
     );
   }
 
-  // 2. BUSINESS REGISTRATION & COMPLIANCE FORM (Traceability Data Pipeline)
+  // 2. BUSINESS REGISTRATION & COMPLIANCE FORM
   if (view === 'register') {
     return (
       <div style={{ minHeight: '100vh', background: '#f8fafc', padding: '20px', fontFamily: 'sans-serif', color: '#0f172a', maxWidth: '600px', margin: '0 auto' }}>
-        <button onClick={() => setView('signin')} style={{ marginBottom: '20px', padding: '8px 16px', background: '#e2e8f0', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
-          ← Back to Sign In
-        </button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+          <button onClick={() => setView('signin')} style={{ padding: '8px 16px', background: '#e2e8f0', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: '500' }}>
+            ← Back to Sign In
+          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div style={{ background: '#4f46e5', color: 'white', width: '32px', height: '32px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '8px', fontSize: '16px' }}>🛡️</div>
+            <span style={{ fontSize: '15px', fontWeight: 'bold' }}>docShare</span>
+          </div>
+        </div>
         <div style={{ background: 'white', padding: '24px', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05)' }}>
           <h2 style={{ marginTop: 0 }}>Business Registration & Compliance</h2>
-          <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '20px' }}>Complete enterprise verification details for user traceability.</p>
-          <form onSubmit={(e) => { e.preventDefault(); alert('Compliance Registration submitted successfully!'); setView('app'); }} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <form onSubmit={(e) => { e.preventDefault(); alert('Registration submitted!'); setView('app'); }} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '6px' }}>Country *</label>
               <select style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', background: 'white' }}>
@@ -116,11 +130,7 @@ export default function App() {
             </div>
             <div>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '6px' }}>State / Province *</label>
-              <input type="text" placeholder="e.g. Lagos State or Imo State" style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
-            </div>
-            <div>
-              <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '6px' }}>City / LGA *</label>
-              <input type="text" placeholder="e.g. Ikeja LGA" style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+              <input type="text" placeholder="e.g. Lagos State" style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
             </div>
             <div>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '6px' }}>Estimated Staff / Member Scope *</label>
@@ -130,17 +140,6 @@ export default function App() {
                 <option>51 - 200 members</option>
                 <option>200+ members</option>
               </select>
-            </div>
-            <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '16px' }}>
-              <h4 style={{ margin: '0 0 12px 0', color: '#334155' }}>3. Security & Compliance Uploads</h4>
-              <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '6px' }}>Select ID Type *</label>
-              <select style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', background: 'white', marginBottom: '12px' }}>
-                <option>National ID (NIN)</option>
-                <option>International Passport</option>
-                <option>Driver's License</option>
-              </select>
-              <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '6px' }}>Upload ID Document (PDF/Image) *</label>
-              <input type="file" accept="image/*,.pdf" style={{ width: '100%', padding: '8px', border: '1px solid #cbd5e1', borderRadius: '8px' }} required />
             </div>
             <button type="submit" style={{ background: '#4f46e5', color: 'white', border: 'none', padding: '14px', borderRadius: '8px', fontWeight: '600', cursor: 'pointer', marginTop: '10px' }}>
               Complete Registration & Proceed
@@ -172,27 +171,31 @@ export default function App() {
   if (view === 'admin-dashboard') {
     return (
       <div style={{ minHeight: '100vh', background: '#f8fafc', padding: '24px', fontFamily: 'sans-serif', color: '#0f172a' }}>
-        <div style={{ background: '#0f172a', color: 'white', padding: '24px', borderRadius: '16px', marginBottom: '20px' }}>
-          <h1 style={{ fontSize: '24px', margin: '0 0 4px 0' }}>Command Center</h1>
-          <p style={{ color: '#94a3b8', margin: 0, fontSize: '14px' }}>🟢 Full System Oversight & User Traceability Logs Active</p>
-          <button onClick={() => setView('signin')} style={{ background: '#334155', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', marginTop: '16px' }}>Sign Out</button>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
-          <div style={{ background: 'white', padding: '20px', borderRadius: '12px', border: '1px solid #e2e8f0' }}><h3>Activity Logs</h3><p style={{ color: '#64748b', fontSize: '13px' }}>Track user sessions & edits</p></div>
-          <div style={{ background: 'white', padding: '20px', borderRadius: '12px', border: '1px solid #e2e8f0' }}><h3>Branding & Content</h3><p style={{ color: '#64748b', fontSize: '13px' }}>Manage UI assets</p></div>
+        <div style={{ background: '#0f172a', color: 'white', padding: '24px', borderRadius: '16px', marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+              <span style={{ background: '#334155', padding: '6px 8px', borderRadius: '8px' }}>🛡️</span>
+              <h1 style={{ fontSize: '22px', margin: 0 }}>Command Center</h1>
+            </div>
+            <p style={{ color: '#94a3b8', margin: 0, fontSize: '13px' }}>🟢 Full System Oversight Active</p>
+          </div>
+          <button onClick={() => setView('signin')} style={{ background: '#334155', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontWeight: '500' }}>Sign Out</button>
         </div>
       </div>
     );
   }
 
-  // 5. WORKSPACE HUB (Main App Hub with Share / Join Features)
+  // 5. WORKSPACE HUB (Main App Hub)
   return (
     <div style={{ padding: '20px', fontFamily: 'sans-serif', background: '#f8fafc', minHeight: '100vh', maxWidth: '900px', margin: '0 auto' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <button onClick={() => setView('signin')} style={{ padding: '8px 16px', background: '#e2e8f0', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
-          ← Sign Out
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ background: '#4f46e5', color: 'white', width: '36px', height: '36px', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '10px', fontSize: '18px' }}>🛡️</div>
+          <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#0f172a' }}>docShare</span>
+        </div>
+        <button onClick={() => setView('signin')} style={{ padding: '8px 16px', background: '#e2e8f0', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: '500' }}>
+          Sign Out
         </button>
-        <span style={{ fontSize: '14px', color: '#64748b' }}>Connected to docShare Secure Environment</span>
       </div>
       <div style={{ background: 'white', padding: '24px', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05)' }}>
         <h2 style={{ marginTop: 0 }}>docShare Workspace Hub</h2>
