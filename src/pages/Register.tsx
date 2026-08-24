@@ -259,7 +259,7 @@ export default function Register() {
                 </div>
                 <div>
                   <label className="block text-[11px] font-semibold text-slate-600 mb-1">Estimated Staff / Member Scope *</label>
-                  <<select 
+                  <select 
   name="staffSize" 
   value={formData.staffSize} 
   onChange={handleInputChange} 
