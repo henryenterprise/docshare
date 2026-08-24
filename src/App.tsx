@@ -129,6 +129,32 @@ export default function App() {
               <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px', color: '#334155' }}>Password</label>
               <input type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
             </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', marginBottom: '12px' }}>
+            {['Individual', 'Group', 'Organization'].map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => {
+                  setAccountCategory(cat);
+                  if (cat === 'Individual') setView('register-individual');
+                  else if (cat === 'Group') setView('register-group');
+                  else if (cat === 'Organization') setView('register-organization');
+                }}
+                style={{
+                  padding: '10px 4px',
+                  borderRadius: '10px',
+                  border: '1px solid #cbd5e1',
+                  background: 'white',
+                  color: '#334155',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  cursor: 'pointer'
+                }}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
 
             <button type="submit" style={{ background: '#4f46e5', color: 'white', border: 'none', padding: '12px', borderRadius: '10px', fontWeight: '600', cursor: 'pointer', width: '100%' }}>
               Sign-in
