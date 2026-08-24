@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import WorkspaceManager from './WorkspaceManager';
+import WorkspaceManager from './components/WorkspaceManager';
 import JoinWorkspace from './JoinWorkspace';
 import SharedWorkspaceEditor from './SharedWorkspaceEditor';
 
