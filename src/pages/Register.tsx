@@ -11,27 +11,38 @@ export default function Register() {
   const [successMessage, setSuccessMessage] = useState('');
 
   // Form Fields State
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    otherNames: '',
-    dob: '',
-    email: '',
-    phoneCountryCode: '+234',
-    phone: '',
-    occupation: '',
-    industry: 'Telecommunications & Digital Services',
-    country: 'Nigeria',
-    state: '',
-    lga: '',
-    streetAddress: '',
-    entityName: '',
-    registrationNumber: '', // CAC or Group Reg No
-    taxId: '', // TIN
-    designation: '',
-    staffSize: '1-10 employees',
-    idType: 'National ID (NIN)',
+    const [formData, setFormData] = useState(() => {
+    const savedDraft = localStorage.getItem('register_form_draft');
+    if (savedDraft) {
+      try {
+        return JSON.parse(savedDraft);
+      } catch (e) {
+        // Fallback if JSON parsing fails
+      }
+    }
+    return {
+      firstName: '',
+      lastName: '',
+      otherNames: '',
+      dob: '',
+      email: '',
+      phoneCountryCode: '+234',
+      phone: '',
+      occupation: '',
+      industry: 'Telecommunications & Digital Services',
+      country: 'Nigeria',
+      state: '',
+      lga: '',
+      streetAddress: '',
+      entityName: '',
+      registrationNumber: '',
+      taxId: '',
+      designation: '',
+      staffSize: '1-10 employees',
+      idType: 'National ID (NIN)',
+    };
   });
+
       useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const regType = params.get('type');
@@ -43,6 +54,10 @@ export default function Register() {
       setFormData(prev => ({ ...prev, staffSize: '1-10 employees' }));
     }
   }, []);
+  // Auto-save form progress to localStorage on change
+  useEffect(() => {
+    localStorage.setItem('register_form_draft', JSON.stringify(formData));
+  }, [formData]);
 
   const [idFile, setIdFile] = useState<File | null>(null);
   const [corpFile, setCorpFile] = useState<File | null>(null);
