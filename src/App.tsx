@@ -18,7 +18,7 @@ const DefaultJoinWorkspace = () => (
 const DefaultSharedEditor = () => (
   <div style={{ padding: '16px', background: '#f8fafc', borderRadius: '8px', marginBottom: '16px', border: '1px solid #e2e8f0' }}>
     <h4 style={{ margin: '0 0 8px 0', color: '#1e293b' }}>Shared Workspace Editor</h4>
-    <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }, fontSize: '13px'}>Collaborate on documents and notes in real-time.</p>
+    <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>Collaborate on documents and notes in real-time.</p>
   </div>
 );
 
