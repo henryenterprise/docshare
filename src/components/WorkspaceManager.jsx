@@ -1,101 +1,80 @@
 import React, { useState } from 'react';
 
-export default function WorkspaceManager() {
-  const [inviteMethod, setInviteMethod] = useState('email'); // 'email', 'phone', or 'id'
-  const [inputValue, setInputValue] = useState('');
+export default function WorkspaceManager({ onClose }) {
+  const [isActivated, setIsActivated] = useState(false);
+  const [behaviorStyle, setBehaviorStyle] = useState('co-editor'); // 'co-editor', 'commenter', 'viewer'
+  const [accessCode, setAccessCode] = useState('');
   const [collaborators, setCollaborators] = useState([]);
-  const [generatedId, setGeneratedId] = useState('');
 
-  // Function to handle generating a unique ID or sending an invite
-  const handleInvite = (e) => {
+  // Function to authorize and initialize the shared environment
+  const handleAuthorizeSharing = (e) => {
     e.preventDefault();
-    if (!inputValue && inviteMethod !== 'id') return;
-
-    // Generate a unique workspace code if requested or simulate sending
-    const uniqueCode = 'DOC-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-    
-    const newCollaborator = {
-      id: Date.now(),
-      type: inviteMethod,
-      value: inviteMethod === 'id' ? uniqueCode : inputValue,
-      code: uniqueCode,
-      status: 'Active'
-    };
-
-    setCollaborators([...collaborators, newCollaborator]);
-    if (inviteMethod === 'id') {
-      setGeneratedId(uniqueCode);
-    }
-    setInputValue('');
+    const uniqueCode = 'DOC-ENV-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    setAccessCode(uniqueCode);
+    setIsActivated(true);
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto', fontFamily: 'sans-serif', background: '#f9f9f9', borderRadius: '8px', border: '1px solid #ddd' }}>
-      <h2>docShare Shared Environment</h2>
-      <p>Invite colleagues, friends, or collaborators to your workspace so you can build and review presentations together.</p>
+    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: '0', background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
+      <div style={{ background: '#fff', padding: '25px', borderRadius: '8px', width: '90%', maxWidth: '500px', fontFamily: 'sans-serif', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
+        
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+          <h2 style={{ margin: 0, fontSize: '18px' }}>Share Workspace Environment</h2>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '18px', cursor: 'pointer' }}>✕</button>
+        </div>
 
-      {/* Method Selection Tabs */}
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
-        <button 
-          onClick={() => setInviteMethod('email')} 
-          style={{ padding: '8px 12px', background: inviteMethod === 'email' ? '#0070f3' : '#eee', color: inviteMethod === 'email' ? '#fff' : '#333', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-          By Email
-        </button>
-        <button 
-          onClick={() => setInviteMethod('phone')} 
-          style={{ padding: '8px 12px', background: inviteMethod === 'phone' ? '#0070f3' : '#eee', color: inviteMethod === 'phone' ? '#fff' : '#333', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-          By Phone Number
-        </button>
-        <button 
-          onClick={() => setInviteMethod('id')} 
-          style={{ padding: '8px 12px', background: inviteMethod === 'id' ? '#0070f3' : '#eee', color: inviteMethod === 'id' ? '#fff' : '#333', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-          Generate Unique ID
-        </button>
-      </div>
+        {!isActivated ? (
+          <div>
+            <p style={{ fontSize: '14px', color: '#555', lineHeight: '1.5' }}>
+              Authorize sharing to turn this document workspace into a live collaborative environment. As the administrator, you set the behavioral styles for incoming collaborators.
+            </p>
 
-      {/* Invitation Form */}
-      <form onSubmit={handleInvite} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        {inviteMethod !== 'id' ? (
-          <input 
-            type={inviteMethod === 'email' ? 'email' : 'tel'} 
-            placeholder={inviteMethod === 'email' ? 'Enter collaborator email...' : 'Enter phone number...'} 
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}
-          />
+            <form onSubmit={handleAuthorizeSharing} style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginTop: '15px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 'bold', marginBottom: '5px' }}>
+                  Collaborator Behavioral Style / Permissions
+                </label>
+                <select 
+                  value={behaviorStyle} 
+                  onChange={(e) => setBehaviorStyle(e.target.value)}
+                  style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}
+                >
+                  <option value="co-editor">Co-Editor (Can edit content live)</option>
+                  <option value="commenter">Commenter (Can leave feedback & suggestions)</option>
+                  <option value="viewer">Viewer (Read-only access)</option>
+                </select>
+              </div>
+
+              <button 
+                type="submit" 
+                style={{ padding: '10px', background: '#0070f3', color: '#fff', border: 'none', borderRadius: '4px', fontWeight: 'bold', cursor: 'pointer' }}>
+                Authorize & Generate Workspace ID
+              </button>
+            </form>
+          </div>
         ) : (
-          <p style={{ fontSize: '14px', color: '#555', margin: '0' }}>Click below to create a unique workspace ID that anyone can use to connect.</p>
+          <div>
+            <div style={{ background: '#e6f4ea', border: '1px solid #34a853', padding: '12px', borderRadius: '4px', marginBottom: '15px' }}>
+              <div style={{ fontSize: '13px', color: '#137333', fontWeight: 'bold' }}>✓ Workspace Shared Successfully</div>
+              <div style={{ fontSize: '12px', color: '#555', marginTop: '4px' }}>Behavioral Mode: <strong>{behaviorStyle.toUpperCase()}</strong></div>
+              <div style={{ marginTop: '8px', fontSize: '14px' }}>
+                Unique Access ID: <span style={{ fontFamily: 'monospace', fontWeight: 'bold', color: '#000' }}>{accessCode}</span>
+              </div>
+            </div>
+
+            <p style={{ fontSize: '13px', color: '#666' }}>
+              Share this Unique ID via email, phone, or direct message. When a collaborator signs in and enters it, they will join your environment under your specified permissions.
+            </p>
+
+            <button 
+              onClick={() => setIsActivated(false)} 
+              style={{ width: '100%', padding: '10px', background: '#eee', color: '#333', border: 'none', borderRadius: '4px', fontWeight: 'bold', cursor: 'pointer', marginTop: '10px' }}>
+              Modify Settings
+            </button>
+          </div>
         )}
 
-        <button type="submit" style={{ padding: '10px', background: '#0070f3', color: '#fff', border: 'none', borderRadius: '4px', fontWeight: 'bold', cursor: 'pointer' }}>
-          {inviteMethod === 'id' ? 'Generate Unique Code' : 'Send Invite'}
-        </button>
-      </form>
-
-      {generatedId && (
-        <div style={{ marginTop: '15px', padding: '10px', background: '#e6f4ea', border: '1px solid #34a853', borderRadius: '4px' }}>
-          <strong>Generated Unique ID:</strong> <span style={{ fontFamily: 'monospace', fontSize: '16px' }}>{generatedId}</span>
-          <p style={{ fontSize: '12px', margin: '5px 0 0 0' }}>Share this code with your collaborator so they can link to your workspace.</p>
-        </div>
-      )}
-
-      {/* Active Collaborators List */}
-      <h3 style={{ marginTop: '25px' }}>Active Workspace Members</h3>
-      {collaborators.length === 0 ? (
-        <p style={{ color: '#777', fontSize: '14px' }}>No collaborators added yet.</p>
-      ) : (
-        <ul style={{ listStyle: 'none', padding: '0', margin: '0' }}>
-          {collaborators.map((c) => (
-            <li key={c.id} style={{ background: '#fff', padding: '10px', marginBottom: '8px', border: '1px solid #eee', borderRadius: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <strong>{c.type.toUpperCase()}:</strong> {c.value}
-                <div style={{ fontSize: '12px', color: '#666' }}>Workspace ID: {c.code}</div>
-              </div>
-              <span style={{ background: '#e2f0cb', color: '#2d6a4f', padding: '2px 8px', borderRadius: '12px', fontSize: '12px' }}>{c.status}</span>
-            </li>
-          ))}
-        </ul>
-      )}
+      </div>
     </div>
   );
 }
