@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import WorkspaceManager from './components/WorkspaceManager';
-import JoinWorkspace from './JoinWorkspace';
+import JoinWorkspace from './components/JoinWorkspace';
+
 import SharedWorkspaceEditor from './SharedWorkspaceEditor';
 
 export default function App() {
