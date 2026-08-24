@@ -143,6 +143,33 @@ export default function App() {
               <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px', color: '#334155' }}>Password</label>
               <input type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
             </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', marginBottom: '12px' }}>
+            {['Individual', 'Group', 'Corporate'].map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setAccountCategory(cat)}
+                style={{
+                  padding: '10px 8px',
+                  borderRadius: '12px',
+                  border: accountCategory === cat ? '2px solid #4f46e5' : '1px solid #cbd5e1',
+                  background: accountCategory === cat ? '#eef2ff' : 'white',
+                  color: accountCategory === cat ? '#4f46e5' : '#334155',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  cursor: 'pointer'
+                }}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          <div style={{ background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)', border: '1px solid #d97706', padding: '10px 14px', borderRadius: '10px', textAlign: 'center', marginBottom: '16px', boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.6)' }}>
+            <span style={{ fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', color: '#b45309', letterSpacing: '0.05em' }}>
+              Select Account Category: {accountCategory}
+            </span>
+          </div>
 
             <button type="submit" style={{ background: '#4f46e5', color: 'white', border: 'none', padding: '12px', borderRadius: '10px', fontWeight: '600', cursor: 'pointer', width: '100%' }}>
               Sign-in
