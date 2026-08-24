@@ -1,7 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import WorkspaceManager from './components/WorkspaceManager';
-import JoinWorkspace from './components/JoinWorkspace';
-import SharedWorkspaceEditor from './components/SharedWorkspaceEditor';
+
+// Fallback components in case external files fail or throw errors
+const DefaultWorkspaceManager = () => (
+  <div style={{ padding: '16px', background: '#f8fafc', borderRadius: '8px', marginBottom: '16px', border: '1px solid #e2e8f0' }}>
+    <h4 style={{ margin: '0 0 8px 0', color: '#1e293b' }}>Workspace Manager</h4>
+    <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>Manage your active workspaces, permissions, and settings here.</p>
+  </div>
+);
+
+const DefaultJoinWorkspace = () => (
+  <div style={{ padding: '16px', background: '#f8fafc', borderRadius: '8px', marginBottom: '16px', border: '1px solid #e2e8f0' }}>
+    <h4 style={{ margin: '0 0 8px 0', color: '#1e293b' }}>Join Workspace</h4>
+    <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>Enter a unique workspace ID or invitation link to collaborate.</p>
+  </div>
+);
+
+const DefaultSharedEditor = () => (
+  <div style={{ padding: '16px', background: '#f8fafc', borderRadius: '8px', marginBottom: '16px', border: '1px solid #e2e8f0' }}>
+    <h4 style={{ margin: '0 0 8px 0', color: '#1e293b' }}>Shared Workspace Editor</h4>
+    <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }, fontSize: '13px'}>Collaborate on documents and notes in real-time.</p>
+  </div>
+);
+
+// Safely attempt imports with fallback error containment
+let WorkspaceManager = DefaultWorkspaceManager;
+let JoinWorkspace = DefaultJoinWorkspace;
+let SharedWorkspaceEditor = DefaultSharedEditor;
+
+try {
+  WorkspaceManager = require('./components/WorkspaceManager').default || DefaultWorkspaceManager;
+} catch (e) { /* fallback active */ }
+
+try {
+  JoinWorkspace = require('./components/JoinWorkspace').default || DefaultJoinWorkspace;
+} catch (e) { /* fallback active */ }
+
+try {
+  SharedWorkspaceEditor = require('./components/SharedWorkspaceEditor').default || DefaultSharedEditor;
+} catch (e) { /* fallback active */ }
 
 export default function App() {
   const [view, setView] = useState('signin'); // 'signin', 'admin', 'register', 'dashboard'
@@ -66,7 +102,7 @@ export default function App() {
   const handleSignIn = (e) => {
     e.preventDefault();
     if (accountCategory === 'Individual') {
-      setIndEmail(email); // carry over sign-in email
+      setIndEmail(email); 
       setView('register');
     } else {
       setView('dashboard');
@@ -91,7 +127,6 @@ export default function App() {
     }
   };
 
-  // Reusable Social Handles Footer
   const SocialFooter = () => (
     <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid #e2e8f0', textAlign: 'center' }}>
       <p style={{ fontSize: '11px', color: '#94a3b8', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Connect with docShare</p>
@@ -199,7 +234,6 @@ export default function App() {
 
           <form onSubmit={handleRegistrationSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             
-            {/* INDIVIDUAL FORM VIEW */}
             {accountCategory === 'Individual' ? (
               <>
                 <h4 style={{ margin: '0 0 -8px 0', color: '#334155', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Individual Credentials & Profile</h4>
@@ -273,7 +307,6 @@ export default function App() {
                 </div>
               </>
             ) : (
-              /* GROUP & CORPORATE FULL COMPLIANCE FORM VIEW */
               <>
                 <h4 style={{ margin: '0 0 -8px 0', color: '#334155', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>1. Organization / Group Information</h4>
                 
@@ -405,7 +438,6 @@ export default function App() {
               </>
             )}
 
-            {/* Non-intrusive Inline Review Banner instead of browser alert popup */}
             {reviewBanner && (
               <div style={{ background: '#fef3c7', border: '1px solid #f59e0b', padding: '14px', borderRadius: '8px', color: '#92400e', fontSize: '13px', lineHeight: '1.5' }}>
                 <strong>Under Review:</strong> Your {accountCategory} submission is currently under review. At the end of the review, if cleared, you will receive a congratulatory email. Upon your next login, full access will be granted to your dashboard!
@@ -430,7 +462,7 @@ export default function App() {
     );
   }
 
-  // 3. ADMIN PORTAL LOGIN (?admin=true)
+  // 3. ADMIN PORTAL LOGIN
   if (view === 'admin') {
     return (
       <div style={{ minHeight: '100vh', background: '#f1f5f9', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', fontFamily: 'sans-serif', padding: '16px' }}>
@@ -468,15 +500,13 @@ export default function App() {
     );
   }
 
-  // 5. DASHBOARD (With 3 lines strategic drop-down menu for clean view)
+  // 5. DASHBOARD
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc', fontFamily: 'sans-serif', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
       
       <div>
-        {/* Top Header with Strategic 3 Lines Menu Button */}
         <div style={{ background: 'white', borderBottom: '1px solid #e2e8f0', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            {/* 3 Strategic Lines for Drop-down/Sidebar Clean View */}
             <button 
               onClick={() => setDrawerOpen(!drawerOpen)} 
               style={{ background: 'none', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '8px 10px', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '4px', justifyContent: 'center' }}
@@ -498,7 +528,6 @@ export default function App() {
           </button>
         </div>
 
-        {/* Strategic Drop-down / Collapsible Drawer for Tools */}
         {drawerOpen && (
           <div style={{ background: '#1e293b', color: 'white', padding: '16px 24px', display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}>
             <span style={{ fontSize: '13px', fontWeight: '600', color: '#94a3b8', textTransform: 'uppercase' }}>Quick Tools:</span>
@@ -508,7 +537,6 @@ export default function App() {
           </div>
         )}
 
-        {/* Main Content Hub Area */}
         <div style={{ padding: '24px', maxWidth: '900px', margin: '0 auto' }}>
           <div style={{ background: 'white', padding: '24px', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05)' }}>
             <h2 style={{ marginTop: 0 }}>Welcome to your {accountCategory} Workspace Hub</h2>
