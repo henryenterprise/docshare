@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { Building2, Users, ShieldCheck, Upload, ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import MediaUploader from '../components/MediaUploader';
 
 export default function Register() {
   const [accountType, setAccountType] = useState<'organization' | 'group'>('organization');
@@ -295,8 +296,13 @@ export default function Register() {
                     <option value="International Passport">International Passport</option>
                     <option value="Driver's License">Driver's License</option>
                   </select>
-                  <label className="block text-[11px] font-semibold text-slate-600 mb-1">Upload ID Document (PDF/Image) *</label>
-                  <input type="file" required onChange={(e) => setIdFile(e.target.files?.[0] || null)} className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-900 file:text-white hover:file:bg-slate-800" />
+                  <MediaUploader 
+  onFileSelect={(category, file) => {
+    setIdFile(file);
+    // You can also track category if needed
+  }} 
+/>
+
                 </div>
 
                 <div>
