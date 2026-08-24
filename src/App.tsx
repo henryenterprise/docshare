@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import WorkspaceManager from './components/WorkspaceManager';
 import JoinWorkspace from './components/JoinWorkspace';
-
-import SharedWorkspaceEditor from './SharedWorkspaceEditor';
+import SharedWorkspaceEditor from './components/SharedWorkspaceEditor';
 
 export default function App() {
   const [currentView, setCurrentView] = useState('dashboard'); // 'dashboard', 'active-workspace', 'join-workspace'
