@@ -1,130 +1,45 @@
 import React, { useState } from 'react';
-import { Camera, Image as ImageIcon, FileText, CheckCircle, AlertCircle } from 'lucide-react';
 
-interface MediaUploaderProps {
-  onFileSelect: (category: string, file: File) => void;
-}
+export default function MediaUploader({ onUploadComplete }: { onUploadComplete: (file: File, category: string) => void }) {
+  const [permissionStatus, setPermissionStatus] = useState<string>('idle');
 
-export default function MediaUploader({ onFileSelect }: MediaUploaderProps) {
-  const [permissionModal, setPermissionModal] = useState<'none' | 'gallery' | 'camera'>('none');
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [previewName, setPreviewName] = useState<string | null>(null);
-
-  const requestPermission = (type: 'gallery' | 'camera') => {
-    setPermissionModal(type);
+  const requestMediaAccess = async (type: 'gallery' | 'camera') => {
+    try {
+      setPermissionStatus(`Requesting access to ${type}...`);
+      if (type === 'camera') {
+        await navigator.mediaDevices.getUserMedia({ video: true });
+      }
+      setPermissionStatus('Access granted');
+    } catch (err) {
+      setPermissionStatus('Permission denied or unavailable');
+    }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, source: 'gallery' | 'camera') => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      let category = 'Files';
+      if (file.type.startsWith('image/')) category = 'Photo';
+      else if (file.type.startsWith('video/')) category = 'Video';
+      else if (file.type.startsWith('audio/')) category = 'Audio';
 
-    // Automatically categorize based on MIME type
-    let category = 'Files';
-    if (file.type.startsWith('image/')) {
-      category = 'Photo';
-    } else if (file.type.startsWith('video/')) {
-      category = 'Video';
-    } else if (file.type.startsWith('audio/')) {
-      category = 'Audio';
+      onUploadComplete(file, category);
     }
-
-    setSelectedCategory(category);
-    setPreviewName(file.name);
-    setPermissionModal('none');
-    onFileSelect(category, file);
   };
 
   return (
-    <div className="space-y-4">
-      <label className="block text-xs font-semibold text-slate-600 mb-1">Upload Media / Document *</label>
-      
-      <div className="grid grid-cols-2 gap-3">
-        <button
-          type="button"
-          onClick={() => requestPermission('gallery')}
-          className="flex items-center justify-center gap-2 py-3 px-4 border border-slate-300 rounded-xl text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 transition shadow-sm"
-        >
-          <ImageIcon className="h-4 w-4 text-indigo-600" /> Open Gallery
+    <div style={{ border: '1px dashed #cbd5e1', padding: '16px', borderRadius: '12px', background: '#f8fafc' }}>
+      <p style={{ fontSize: '14px', fontWeight: '500', margin: '0 0 12px 0' }}>Secure Media & Document Upload</p>
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
+        <button type="button" onClick={() => requestMediaAccess('gallery')} style={{ padding: '8px 12px', fontSize: '12px', background: '#e2e8f0', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
+          Access Gallery
         </button>
-
-        <button
-          type="button"
-          onClick={() => requestPermission('camera')}
-          className="flex items-center justify-center gap-2 py-3 px-4 border border-slate-300 rounded-xl text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 transition shadow-sm"
-        >
-          <Camera className="h-4 w-4 text-indigo-600" /> Use Camera
+        <button type="button" onClick={() => requestMediaAccess('camera')} style={{ padding: '8px 12px', fontSize: '12px', background: '#e2e8f0', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
+          Access Camera
         </button>
       </div>
-
-      {/* Gallery Permission & Selection Modal */}
-      {permissionModal === 'gallery' && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl space-y-4">
-            <h3 className="text-base font-bold text-slate-900">Access Request to view gallery</h3>
-            <p className="text-xs text-slate-500">This app requires permission to access your device gallery to select photos and files.</p>
-            <div className="flex gap-2 pt-2">
-              <button
-                type="button"
-                onClick={() => setPermissionModal('none')}
-                className="flex-1 py-2 px-3 border border-slate-300 rounded-xl text-xs font-semibold text-slate-600"
-              >
-                Deny
-              </button>
-              <label className="flex-1 text-center py-2 px-3 bg-indigo-600 text-white rounded-xl text-xs font-semibold cursor-pointer shadow-sm hover:bg-indigo-700">
-                Allow
-                <input
-                  type="file"
-                  accept="image/*,video/*,audio/*,.pdf,.doc,.docx"
-                  className="hidden"
-                  onChange={(e) => handleFileChange(e, 'gallery')}
-                />
-              </label>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Camera Permission & Capture Modal */}
-      {permissionModal === 'camera' && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl space-y-4">
-            <h3 className="text-base font-bold text-slate-900">Access Request to view Camera</h3>
-            <p className="text-xs text-slate-500">This app requires permission to access your camera to capture media directly.</p>
-            <div className="flex gap-2 pt-2">
-              <button
-                type="button"
-                onClick={() => setPermissionModal('none')}
-                className="flex-1 py-2 px-3 border border-slate-300 rounded-xl text-xs font-semibold text-slate-600"
-              >
-                Deny
-              </button>
-              <label className="flex-1 text-center py-2 px-3 bg-indigo-600 text-white rounded-xl text-xs font-semibold cursor-pointer shadow-sm hover:bg-indigo-700">
-                Allow & Capture
-                <input
-                  type="file"
-                  accept="image/*,video/*"
-                  capture="environment"
-                  className="hidden"
-                  onChange={(e) => handleFileChange(e, 'camera')}
-                />
-              </label>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Selected File Feedback & Categorization Badge */}
-      {previewName && (
-        <div className="flex items-center justify-between p-3 bg-indigo-50 border border-indigo-100 rounded-xl text-xs">
-          <div className="flex items-center gap-2 overflow-hidden">
-            <FileText className="h-4 w-4 text-indigo-600 flex-shrink-0" />
-            <span className="text-slate-700 truncate font-medium">{previewName}</span>
-          </div>
-          <span className="bg-indigo-600 text-white px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider flex-shrink-0">
-            {selectedCategory}
-          </span>
-        </div>
-      )}
+      <input type="file" onChange={handleFileChange} style={{ fontSize: '13px' }} />
+      {permissionStatus !== 'idle' && <p style={{ fontSize: '12px', color: '#64748b', marginTop: '6px' }}>Status: {permissionStatus}</p>}
     </div>
   );
 }
