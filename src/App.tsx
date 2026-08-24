@@ -1,68 +1,51 @@
-import React, { useEffect, useState } from 'react';
-import { supabase } from './utils/supabase';
-import Index from './pages/Index';
-import Admin from './pages/Admin';
-import Login from './pages/Login';
-import VisualBuilder from './pages/VisualBuilder';
-import Register from './pages/Register';
+import React, { useState } from 'react';
+import WorkspaceManager from './WorkspaceManager';
+import JoinWorkspace from './JoinWorkspace';
 
 export default function App() {
-  const [session, setSession] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' or 'join'
 
-  // Route parameter detectors
-  const isBuilderRoute = window.location.search.includes('builder=true') || window.location.href.includes('builder');
-  const isAdminRoute = window.location.search.includes('admin=true');
-  const isRegisterRoute = window.location.search.includes('register=true');
-  const isLoginRoute = window.location.search.includes('login=true');
+  return (
+    <div style={{ minHeight: '100vh', background: '#f4f6f8', padding: '20px', fontFamily: 'sans-serif' }}>
+      
+      {/* Dashboard Top Header */}
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fff', padding: '15px 20px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+        <h1 style={{ margin: 0, fontSize: '20px', color: '#333' }}>docShare Workspace</h1>
+        
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          {/* The Share Button embedded in every user's dashboard */}
+          <button 
+            onClick={() => setShowShareModal(true)}
+            style={{ padding: '8px 14px', background: '#34a853', color: '#fff', border: 'none', borderRadius: '4px', fontWeight: 'bold', cursor: 'pointer' }}>
+            🔗 Share Workspace
+          </button>
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setLoading(false);
-    });
+          <button 
+            onClick={() => setActiveTab(activeTab === 'dashboard' ? 'join' : 'dashboard')}
+            style={{ padding: '8px 14px', background: '#eee', color: '#333', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+            {activeTab === 'dashboard' ? 'Join Someone Else\'s Workspace' : 'Back to My Dashboard'}
+          </button>
+        </div>
+      </header>
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setLoading(false);
-    });
+      {/* Main View Area */}
+      <main style={{ marginTop: '20px' }}>
+        {activeTab === 'dashboard' ? (
+          <div style={{ background: '#fff', padding: '30px', borderRadius: '8px', textAlign: 'center', border: '1px solid #ddd' }}>
+            <h2>Welcome to Your Personal Document Hub</h2>
+            <p style={{ color: '#666' }}>Create, edit, and manage your documents. Tap "Share Workspace" above at any time to invite others and become the administrator of a shared environment.</p>
+          </div>
+        ) : (
+          <JoinWorkspace />
+        )}
+      </main>
 
-    return () => subscription.unsubscribe();
-  }, []);
+      {/* Popup Window / Modal for Sharing Authorization */}
+      {showShareModal && (
+        <WorkspaceManager onClose={() => setShowShareModal(false)} />
+      )}
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-600 font-medium text-sm">
-        Loading docShare...
-      </div>
-    );
-  }
-
-    // 1. Visual Builder Route
-  if (isBuilderRoute) {
-    return <VisualBuilder />;
-  }
-
-  // 2. Normal User Login Route (Guaranteed to show normal login when ?login=true is used)
-  if (isLoginRoute) {
-    return <Login />;
-  }
-
-  // 3. docShare Onboarding / Registration Route (?register=true)
-  if (isRegisterRoute) {
-    return <Register />;
-  }
-
-  // 4. Hard-coded Admin Portal Route (?admin=true)
-  if (isAdminRoute) {
-    if (!session) {
-      return <Login />;
-    }
-    return <Admin />;
-  }
-
-  // 5. Default Public Homepage Route
-  return <Index />;
+    </div>
+  );
 }
