@@ -259,12 +259,14 @@ export default function Register() {
                 </div>
                 <div>
                   <label className="block text-[11px] font-semibold text-slate-600 mb-1">Estimated Staff / Member Scope *</label>
-                  <select name="staffSize" value={formData.staffSize} onChange={handleInputChange} className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs">
-                    <option value="1-10 employees">1 - 10 members</option>
-                    <option value="11-50 employees">11 - 50 members</option>
-                    <option value="51-200 employees">51 - 200 members</option>
-                    <option value="200+ employees">200+ members</option>
-                  </select>
+                  <<select name="staffSize" value={formData.staffSize} onChange={handleInputChange} className="...your existing classes...">
+  <option value="1 - 5">1 - 5 members</option>
+  <option value="1-10 employees">1 - 10 members</option>
+  <option value="11-50 employees">11 - 50 members</option>
+  <option value="51-200 employees">51 - 200 members</option>
+  <option value="200+ employees">200+ members</option>
+</select>
+
                 </div>
               </div>
             </div>
