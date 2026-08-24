@@ -10,18 +10,31 @@ export default function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // Registration form fields
+  // Individual specific fields
+  const [indPhone, setIndPhone] = useState('');
+  const [indEmail, setIndEmail] = useState('');
+
+  // Group & Organization shared expanded credentials
+  const [orgName, setOrgName] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [otherNames, setOtherNames] = useState('');
   const [dob, setDob] = useState('');
+  const [phone, setPhone] = useState('');
+  const [orgEmail, setOrgEmail] = useState('');
   const [country, setCountry] = useState('Nigeria');
   const [stateProv, setStateProv] = useState('');
+  const [lga, setLga] = useState('');
+  const [address, setAddress] = useState('');
+  const [corporateOffice, setCorporateOffice] = useState('');
+  const [profession, setProfession] = useState('');
   const [staffScope, setStaffScope] = useState('1-5');
   const [customStaff, setCustomStaff] = useState('');
+  const [idType, setIdType] = useState('National ID (NIN)');
+  const [idFile, setIdFile] = useState(null);
+  const [altImageFile, setAltImageFile] = useState(null);
+
   const [reviewModal, setReviewModal] = useState(false);
-  
-  // Dashboard drawer toggle (3 lines menu)
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
@@ -45,9 +58,10 @@ export default function App() {
     e.preventDefault();
     if (accountCategory === 'Individual') {
       // Individual requires complete registration step first before dashboard
+      setIndEmail(email); // carry over sign-in email
       setView('register');
     } else {
-      // Group / Corporate goes straight to dashboard if cleared, or show under review simulation
+      // Group / Corporate goes straight to dashboard if cleared
       setView('dashboard');
     }
   };
@@ -140,10 +154,10 @@ export default function App() {
     );
   }
 
-  // 2. DETAILED REGISTRATION & ONBOARDING FORM (Enhanced with Owner Details & Calendar DOB)
+  // 2. DETAILED REGISTRATION & ONBOARDING FORM
   if (view === 'register') {
     return (
-      <div style={{ minHeight: '100vh', background: '#fdfbf7', padding: '20px', fontFamily: 'sans-serif', color: '#0f172a', maxWidth: '600px', margin: '0 auto' }}>
+      <div style={{ minHeight: '100vh', background: '#fdfbf7', padding: '20px', fontFamily: 'sans-serif', color: '#0f172a', maxWidth: '650px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <button onClick={() => setView('signin')} style={{ padding: '8px 16px', background: '#e2e8f0', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: '500' }}>
             ← Back to Sign In
@@ -156,78 +170,164 @@ export default function App() {
 
         <div style={{ background: 'white', padding: '24px', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05)' }}>
           <h2 style={{ marginTop: 0, fontSize: '20px', color: '#0f172a' }}>{accountCategory} Complete Registration Form</h2>
-          <p style={{ color: '#64748b', fontSize: '13px', marginBottom: '20px' }}>Secure Organization & Group Registration Portal with Enhanced Credentials.</p>
+          <p style={{ color: '#64748b', fontSize: '13px', marginBottom: '20px' }}>
+            {accountCategory === 'Individual' 
+              ? 'Please provide your required email and phone number to complete your profile.' 
+              : 'Complete all required organizational details, location parameters, professional credentials, and identification uploads.'}
+          </p>
 
           <form onSubmit={handleRegistrationSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             
-            <h4 style={{ margin: '0 0 -8px 0', color: '#334155', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>1. Representative / Owner Details</h4>
-            
-            <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>First Name *</label>
-              <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="Enter first name" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
-            </div>
+            {/* INDIVIDUAL FORM VIEW */}
+            {accountCategory === 'Individual' ? (
+              <>
+                <h4 style={{ margin: '0 0 -8px 0', color: '#334155', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Individual Verification Credentials</h4>
+                
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Email Address *</label>
+                  <input type="email" value={indEmail} onChange={(e) => setIndEmail(e.target.value)} placeholder="name@domain.com" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                </div>
 
-            <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Last Name *</label>
-              <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Enter last name" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
-            </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Phone Number *</label>
+                  <input type="tel" value={indPhone} onChange={(e) => setIndPhone(e.target.value)} placeholder="+234 800 000 0000" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                </div>
+              </>
+            ) : (
+              /* GROUP & CORPORATE FULL COMPLIANCE FORM VIEW */
+              <>
+                <h4 style={{ margin: '0 0 -8px 0', color: '#334155', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>1. Organization / Group Information</h4>
+                
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Organization / Group Name *</label>
+                  <input type="text" value={orgName} onChange={(e) => setOrgName(e.target.value)} placeholder="e.g. Acme Tech Global" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                </div>
 
-            <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Other Names</label>
-              <input type="text" value={otherNames} onChange={(e) => setOtherNames(e.target.value)} placeholder="Optional middle names" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} />
-            </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Organization Corporate Office Address *</label>
+                  <input type="text" value={corporateOffice} onChange={(e) => setCorporateOffice(e.target.value)} placeholder="Full corporate headquarters address" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                </div>
 
-            {/* Selectable Date of Birth Calendar */}
-            <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Date of Birth *</label>
-              <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box', background: 'white' }} required />
-            </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Official Organization Email *</label>
+                  <input type="email" value={orgEmail} onChange={(e) => setOrgEmail(e.target.value)} placeholder="org@company.com" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                </div>
 
-            <hr style={{ border: 'none', borderTop: '1px solid #e2e8f0', margin: '8px 0' }} />
-            <h4 style={{ margin: '0 0 -8px 0', color: '#334155', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>2. Location & Scope</h4>
+                <hr style={{ border: 'none', borderTop: '1px solid #e2e8f0', margin: '8px 0' }} />
+                <h4 style={{ margin: '0 0 -8px 0', color: '#334155', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>2. Representative / Owner Details</h4>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>First Name *</label>
+                    <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First name" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Last Name *</label>
+                    <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Last name" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                  </div>
+                </div>
 
-            <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Country *</label>
-              <select value={country} onChange={(e) => setCountry(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', background: 'white' }}>
-                <option>Nigeria</option>
-                <option>Ghana</option>
-                <option>Kenya</option>
-                <option>United Kingdom</option>
-                <option>United States</option>
-              </select>
-            </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Other Names</label>
+                  <input type="text" value={otherNames} onChange={(e) => setOtherNames(e.target.value)} placeholder="Optional middle names" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} />
+                </div>
 
-            <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>State / Province *</label>
-              <input type="text" value={stateProv} onChange={(e) => setStateProv(e.target.value)} placeholder="e.g. Lagos State or Imo State" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
-            </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Date of Birth *</label>
+                    <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box', background: 'white' }} required />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Phone Number *</label>
+                    <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+234..." style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                  </div>
+                </div>
 
-            {/* Dynamic Staff Strength based on Group or Organization selection */}
-            <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Staff Strength / Member Scope *</label>
-              {accountCategory === 'Group' ? (
-                <select value={staffScope} onChange={(e) => setStaffScope(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', background: 'white' }}>
-                  <option value="1-5">1 - 5 members (Group Default)</option>
-                </select>
-              ) : accountCategory === 'Corporate' ? (
-                <>
-                  <select value={staffScope} onChange={(e) => setStaffScope(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', background: 'white', marginBottom: '8px' }}>
-                    <option value="1-10">1 - 10</option>
-                    <option value="11-20">11 - 20</option>
-                    <option value="21-40">21 - 40</option>
-                    <option value="custom">Custom Staff Strength</option>
-                  </select>
-                  {staffScope === 'custom' && (
-                    <input type="number" placeholder="Enter custom staff number" value={customStaff} onChange={(e) => setCustomStaff(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Occupation / Profession *</label>
+                  <input type="text" value={profession} onChange={(e) => setProfession(e.target.value)} placeholder="e.g. Software Engineering / Telecommunications" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                </div>
+
+                <hr style={{ border: 'none', borderTop: '1px solid #e2e8f0', margin: '8px 0' }} />
+                <h4 style={{ margin: '0 0 -8px 0', color: '#334155', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>3. Location & Scope</h4>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Country *</label>
+                    <select value={country} onChange={(e) => setCountry(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', background: 'white' }}>
+                      <option>Nigeria</option>
+                      <option>Ghana</option>
+                      <option>Kenya</option>
+                      <option>United Kingdom</option>
+                      <option>United States</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>State / Province *</label>
+                    <input type="text" value={stateProv} onChange={(e) => setStateProv(e.target.value)} placeholder="e.g. Lagos State" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>LGA (Local Govt Area) *</label>
+                    <input type="text" value={lga} onChange={(e) => setLga(e.target.value)} placeholder="e.g. Ikeja / Owerri Municipal" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Residential / Contact Address *</label>
+                    <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Street address" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Staff Strength / Member Scope *</label>
+                  {accountCategory === 'Group' ? (
+                    <select value={staffScope} onChange={(e) => setStaffScope(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', background: 'white' }}>
+                      <option value="1-5">1 - 5 members (Group Default)</option>
+                    </select>
+                  ) : (
+                    <>
+                      <select value={staffScope} onChange={(e) => setStaffScope(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', background: 'white', marginBottom: '8px' }}>
+                        <option value="1-10">1 - 10</option>
+                        <option value="11-20">11 - 20</option>
+                        <option value="21-40">21 - 40</option>
+                        <option value="custom">Custom Staff Strength</option>
+                      </select>
+                      {staffScope === 'custom' && (
+                        <input type="number" placeholder="Enter custom staff number" value={customStaff} onChange={(e) => setCustomStaff(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                      )}
+                    </>
                   )}
-                </>
-              ) : (
-                <input type="text" value="Individual Account (1 Member)" disabled style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#f1f5f9', color: '#64748b' }} />
-              )}
-            </div>
+                </div>
+
+                <hr style={{ border: 'none', borderTop: '1px solid #e2e8f0', margin: '8px 0' }} />
+                <h4 style={{ margin: '0 0 -8px 0', color: '#334155', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>4. Identification & Document Uploads</h4>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>ID Type *</label>
+                  <select value={idType} onChange={(e) => setIdType(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', background: 'white' }}>
+                    <option value="National ID (NIN)">National ID (NIN)</option>
+                    <option value="International Passport">International Passport</option>
+                    <option value="Drivers License">Driver's License</option>
+                    <option value="Voters Card">Voter's Card</option>
+                  </select>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Upload ID Document *</label>
+                    <input type="file" onChange={(e) => setIdFile(e.target.files[0])} style={{ width: '100%', fontSize: '12px', padding: '8px', background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '8px' }} required />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '4px' }}>Upload Image (Alternative Doc) *</label>
+                    <input type="file" onChange={(e) => setAltImageFile(e.target.files[0])} style={{ width: '100%', fontSize: '12px', padding: '8px', background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '8px' }} required />
+                  </div>
+                </div>
+              </>
+            )}
 
             <button type="submit" style={{ background: '#4f46e5', color: 'white', border: 'none', padding: '14px', borderRadius: '8px', fontWeight: '600', cursor: 'pointer', marginTop: '10px' }}>
-              Submit Registration Details →
+              {accountCategory === 'Individual' ? 'Save & Complete Profile →' : 'Submit Registration Details →'}
             </button>
           </form>
         </div>
@@ -286,7 +386,7 @@ export default function App() {
     );
   }
 
-  // 5. GROUP/ORGANIZATION/INDIVIDUAL DASHBOARD (With 3 lines strategic drop-down menu for clean view)
+  // 5. DASHBOARD (With 3 lines strategic drop-down menu for clean view)
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc', fontFamily: 'sans-serif', position: 'relative' }}>
       
@@ -329,7 +429,7 @@ export default function App() {
       <div style={{ padding: '24px', maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ background: 'white', padding: '24px', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05)' }}>
           <h2 style={{ marginTop: 0 }}>Welcome to your {accountCategory} Workspace Hub</h2>
-          <p style={{ color: '#64748b', fontSize: '14px' }}>All tools are securely tugged in your drop-down menu above. Select your collaboration options below:</p>
+          <p style={{ color: '#64748b', fontSize: '14px' }}>All tools are securely tucked in your drop-down menu above. Select your collaboration options below:</p>
           <WorkspaceManager />
           <JoinWorkspace />
           <SharedWorkspaceEditor />
