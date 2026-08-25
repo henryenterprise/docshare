@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Admin from './pages/Admin';
 import Index from './pages/Index';
 import Login from './pages/Login';
 import Register from './pages/Register';
