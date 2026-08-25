@@ -289,10 +289,6 @@ export default function App() {
     );
   }
 
-  // 3. GROUP ACCOUNT REGISTRATION FORM
-  if (view === 'register-group') {
-
-
   // 3. GROUP OR ORGANIZATION STAFF/CLIENT REGISTRATION FORM
   if (view === 'register-group') {
     return (
