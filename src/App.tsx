@@ -344,62 +344,214 @@ export default function App() {
 
             <div>
               <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Middle Name (Optional)</label>
-              <input type="text" value={middleName} onChange={(e) => setMiddleName(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} />
+  // 3. GROUP ACCOUNT REGISTRATION FORM
+  if (view === 'register-group') {
+    return (
+      <div style={{ minHeight: '100vh', background: '#fdfbf7', padding: '20px', fontFamily: 'sans-serif', maxWidth: '600px', margin: '0 auto' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <button onClick={() => setView('signin')} style={{ padding: '6px 12px', background: '#e2e8f0', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '13px' }}>
+            ← Back
+          </button>
+          <span style={{ fontSize: '14px', fontWeight: 'bold' }}>Group Account Registration</span>
+        </div>
+
+        <div style={{ background: 'white', padding: '24px', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05)' }}>
+          <h2 style={{ marginTop: 0, fontSize: '18px', color: '#0f172a' }}>Group Registration Form</h2>
+          
+          <form onSubmit={(e) => { e.preventDefault(); setView('dashboard'); }} style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '14px' }}>
+            
+            {/* FIRST INPUT FIELD: TITLE / POSITION */}
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Title/Position *</label>
+              <input type="text" placeholder="Select Your Title/Position" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+            </div>
+
+            {/* STAFF STRENGTH OPTION (1-5) */}
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Staff Strength *</label>
+              <select style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box', background: 'white' }} required>
+                <option value="">Select Your Staff Strength</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+
+            {/* COMPREHENSIVE CREDENTIALS */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>First Name *</label>
+                <input type="text" placeholder="Select Your First Name" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Last Name *</label>
+                <input type="text" placeholder="Select Your Last Name" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+              </div>
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Middle Name (Optional)</label>
+              <input type="text" placeholder="Select Your Middle Name" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} />
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               <div>
                 <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Date of Birth *</label>
-                <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                <input type="date" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
               </div>
               <div>
                 <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Phone Number *</label>
-                <input type="tel" value={regPhone} onChange={(e) => setRegPhone(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                <input type="tel" placeholder="Select Your Phone Number" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
               </div>
             </div>
 
             <div>
               <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Email *</label>
-              <input type="email" value={regEmail} onChange={(e) => setRegEmail(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+              <input type="email" placeholder="Select Your Email" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               <div>
                 <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Nationality *</label>
-                <input type="text" value={nationality} onChange={(e) => setNationality(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                <input type="text" placeholder="Select Your Nationality" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
               </div>
               <div>
                 <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>State *</label>
-                <input type="text" value={stateVal} onChange={(e) => setStateVal(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                <input type="text" placeholder="Select Your State" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
               </div>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               <div>
                 <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Province/City *</label>
-                <input type="text" value={provinceCity} onChange={(e) => setProvinceCity(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                <input type="text" placeholder="Select Your Province/City" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
               </div>
               <div>
                 <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>County/LGA *</label>
-                <input type="text" value={countyLga} onChange={(e) => setCountyLga(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+                <input type="text" placeholder="Select Your County/LGA" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
               </div>
             </div>
 
             <div>
               <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Occupation/Profession *</label>
-              <input type="text" value={occupation} onChange={(e) => setOccupation(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+              <input type="text" placeholder="Select Your Occupation/Profession" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
             </div>
 
-            <button type="submit" style={{ background: '#16a34a', color: 'white', border: 'none', padding: '12px', borderRadius: '8px', fontWeight: '600', cursor: 'pointer', marginTop: '10px', width: '100%' }}>
-              Complete Registration & Enter Workspace →
+            <button type="submit" style={{ background: '#4f46e5', color: 'white', border: 'none', padding: '12px', borderRadius: '8px', fontWeight: '600', cursor: 'pointer', marginTop: '10px', width: '100%' }}>
+              Submit Group Registration →
             </button>
           </form>
-
-          <SocialFooter />
         </div>
       </div>
     );
   }
+
+  // 4. ORGANIZATION ACCOUNT REGISTRATION FORM
+  if (view === 'register-organization') {
+    return (
+      <div style={{ minHeight: '100vh', background: '#fdfbf7', padding: '20px', fontFamily: 'sans-serif', maxWidth: '600px', margin: '0 auto' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <button onClick={() => setView('signin')} style={{ padding: '6px 12px', background: '#e2e8f0', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '13px' }}>
+            ← Back
+          </button>
+          <span style={{ fontSize: '14px', fontWeight: 'bold' }}>Organization Account Registration</span>
+        </div>
+
+        <div style={{ background: 'white', padding: '24px', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05)' }}>
+          <h2 style={{ marginTop: 0, fontSize: '18px', color: '#0f172a' }}>Organization Registration Form</h2>
+          
+          <form onSubmit={(e) => { e.preventDefault(); setView('dashboard'); }} style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '14px' }}>
+            
+            {/* FIRST INPUT FIELD: TITLE / POSITION */}
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Title/Position *</label>
+              <input type="text" placeholder="Select Your Title/Position" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+            </div>
+
+            {/* STAFF STRENGTH RANGES & CUSTOM COLUMN */}
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Staff Strength Range / Custom *</label>
+              <select style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box', background: 'white', marginBottom: '8px' }} required>
+                <option value="">Select Your Staff Strength Range</option>
+                <option value="1-10">1 - 10 Staff</option>
+                <option value="11-20">11 - 20 Staff</option>
+                <option value="21-40">21 - 40 Staff</option>
+                <option value="custom">Custom Number of Staff</option>
+              </select>
+              <input type="number" placeholder="Select Your Custom Number of Staff (If applicable)" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} />
+            </div>
+
+            {/* COMPREHENSIVE CREDENTIALS */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>First Name *</label>
+                <input type="text" placeholder="Select Your First Name" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Last Name *</label>
+                <input type="text" placeholder="Select Your Last Name" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+              </div>
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Middle Name (Optional)</label>
+              <input type="text" placeholder="Select Your Middle Name" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} />
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Date of Birth *</label>
+                <input type="date" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Phone Number *</label>
+                <input type="tel" placeholder="Select Your Phone Number" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+              </div>
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Email *</label>
+              <input type="email" placeholder="Select Your Email" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Nationality *</label>
+                <input type="text" placeholder="Select Your Nationality" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>State *</label>
+                <input type="text" placeholder="Select Your State" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Province/City *</label>
+                <input type="text" placeholder="Select Your Province/City" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>County/LGA *</label>
+                <input type="text" placeholder="Select Your County/LGA" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+              </div>
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Occupation/Profession *</label>
+              <input type="text" placeholder="Select Your Occupation/Profession" style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
+            </div>
+
+            <button type="submit" style={{ background: '#4f46e5', color: 'white', border: 'none', padding: '12px', borderRadius: '8px', fontWeight: '600', cursor: 'pointer', marginTop: '10px', width: '100%' }}>
+              Submit Organization Registration →
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
 
   // 4. MAIN DASHBOARD VIEW
   return (
