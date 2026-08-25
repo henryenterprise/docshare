@@ -280,16 +280,18 @@ export default function App() {
               <input type="text" value={occupation} onChange={(e) => setOccupation(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }} required />
             </div>
 
-            <button type="submit" style={{ background: '#4f46e5', color: 'white', border: 'none', padding: '12px', borderRadius: '8px', fontWeight: '600', cursor: 'pointer', marginTop: '10px', width: '100%' }}>
-              Submit → Access User Workspace
+                        <button type="submit" style={{ background: '#4f46e5', color: 'white', border: 'none', padding: '12px', borderRadius: '8px', fontWeight: '600', cursor: 'pointer', marginTop: '10px', width: '100%' }}>
+              Submit Individual Registration →
             </button>
           </form>
-
-          <SocialFooter />
         </div>
       </div>
     );
   }
+
+  // 3. GROUP ACCOUNT REGISTRATION FORM
+  if (view === 'register-group') {
+
 
   // 3. GROUP OR ORGANIZATION STAFF/CLIENT REGISTRATION FORM
   if (view === 'register-group') {
