@@ -344,6 +344,11 @@ export default function App() {
 
             <div>
               <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>Middle Name (Optional)</label>
+              </div>
+          </form>
+        );
+      }
+          
   // 3. GROUP ACCOUNT REGISTRATION FORM
   if (view === 'register-group') {
     return (
