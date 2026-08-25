@@ -4,7 +4,6 @@ import Admin from './pages/Admin';
 import Index from './pages/Index';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import AdminPortal from './pages/Admin';
 import VisualBuilder from './pages/VisualBuilder';
 
 export default function App() {
