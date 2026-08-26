@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export default function Register() {
-  const [category, setCategory] = useState(null); // 'individual', 'group', 'organization'
+    const [category, setCategory] = useState('individual'); // default to 'individual', 'group', 'organization'
   const [subtype, setSubtype] = useState(null); // 'new', 'staff', 'client'
   
   // Qualification Other text toggle for Staff/Client
