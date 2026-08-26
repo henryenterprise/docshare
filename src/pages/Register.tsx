@@ -42,9 +42,10 @@ export default function Register() {
     alert('Registration submitted successfully! Check status triggers.');
   };
 
-  return (
+    return (
     <div style={{ minHeight: '100vh', background: '#fdfbf7', padding: '30px 20px', fontFamily: 'sans-serif' }}>
-      <div style={{ maxWidth: '700px', margin: '0 auto', background: 'white', padding: '30px', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+      <h1 style={{ color: 'red', textAlign: 'center', fontSize: '20px' }}>TEST RENDER: IF YOU SEE THIS, APP IS WORKING</h1>
+      <div style={{ maxWidth: '700px', margin: '0 auto', background: 'white', padding: '30px', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
         
         {/* STEP 1: SELECT CATEGORY */}
         {!category && (
