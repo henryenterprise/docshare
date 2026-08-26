@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../utils/supabase';
 export default function SharedWorkspaceEditor({ userRole, workspaceId, behaviorStyle }) {
   const [docTitle, setDocTitle] = useState('Untitled Presentation');
   const [content, setContent] = useState('');
