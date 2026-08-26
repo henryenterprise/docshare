@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { supabase } from '../supabaseClient';
+import { supabase } from '../lib/supabase';
 export default function JoinWorkspace({ onJoinSuccess }) {
   const [workspaceCode, setWorkspaceCode] = useState('');
   const [loading, setLoading] = useState(false);
