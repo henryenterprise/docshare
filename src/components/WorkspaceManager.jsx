@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { supabase } from '../supabaseClient';
+import { supabase } from '../lib/supabase';
 
 export default function WorkspaceManager({ onClose, onInitialize }) {
   const [behaviorStyle, setBehaviorStyle] = useState('co-editor');
